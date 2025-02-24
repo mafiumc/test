@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moja Prosta Strona</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            background-color: #ffffff;
+            overflow: hidden;
+        }
+
+        .square {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top: 1%;
+            left: 1%;
+            transform: translate(0, 0);
+            transition: transform 0.1s linear;
+            background-image: url('file:///C:/Users/matik/Desktop/pizzanabialym.avif');
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        p {
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #008CBA;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: #005f73;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        button:active {
+            background-color: #388e3c;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 15px 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 18px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <p>Wybierz stronę do otwarcia</p>
+    <ul>
+        <li><a href="file:///C:/Users/matik/Desktop/mojapierwszastrona.html">Moja Pierwsza Strona</a></li>
+        <li><a href="file:///C:/Users/matik/Desktop/stickmanpiłka.html">Stickman Piłka</a></li>
+        <li><a href="file:///C:/Users/matik/Desktop/testy.html">Testy</a></li>
+        <li><a href="file:///C:/Users/matik/Desktop/test2.html">Test2</a></li>
+    </ul>
+
+    <h1>🍕Witaj na stronie catch pizza🍕!</h1>
+    <p>🍕🍕🍕PIZZA🍕🍕😛🍕</p>
+
+    <a href="https://www.google.com/search?q=pizza" class="button">Kliknij tutaj</a>
+    <button>Kliknij mnie!</button>
+
+    <div id="square" class="square"></div>
+    <div id="square2" class="square"></div>
+    <div id="square3" class="square"></div>
+
+    <script>
+        class MovingSquare {
+            constructor(element, startX, startY, velocityX, velocityY) {
+                this.element = element;
+                this.posX = startX;
+                this.posY = startY;
+                this.velocityX = velocityX;
+                this.velocityY = velocityY;
+                this.speedMultiplier = 1.5;
+                this.size = 100; // Dopasowano do CSS
+            }
+
+            updatePosition() {
+                this.posX += this.velocityX;
+                this.posY += this.velocityY;
+
+                // Odbicie od ścian
+                if (this.posX <= 0 || this.posX >= window.innerWidth - this.size) this.velocityX *= -1;
+                if (this.posY <= 0 || this.posY >= window.innerHeight - this.size) this.velocityY *= -1;
+
+                this.element.style.transform = `translate(${this.posX}px, ${this.posY}px)`;
+            }
+
+            checkCollisionWithMouse(mouseX, mouseY) {
+                let dx = mouseX - (this.posX + this.size / 2);
+                let dy = mouseY - (this.posY + this.size / 2);
+                let distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < 60) { // Odbicie od kursora
+                    this.velocityX = -dx * this.speedMultiplier * 0.3;
+                    this.velocityY = -dy * this.speedMultiplier * 0.3;
+                }
+            }
+        }
+
+        // Tworzenie trzech obiektów kwadratów
+        let square1 = new MovingSquare(document.getElementById("square"), window.innerWidth / 5, window.innerHeight / 5, 5, 5);
+        let square2 = new MovingSquare(document.getElementById("square2"), window.innerWidth / 2, window.innerHeight / 2, -4, 6);
+        let square3 = new MovingSquare(document.getElementById("square3"), window.innerWidth / 3, window.innerHeight / 3, -3, 7);
+
+        function animate() {
+            square1.updatePosition();
+            square2.updatePosition();
+            square3.updatePosition();
+            requestAnimationFrame(animate);
+        }
+
+        document.addEventListener("mousemove", function(event) {
+            square1.checkCollisionWithMouse(event.clientX, event.clientY);
+            square2.checkCollisionWithMouse(event.clientX, event.clientY);
+            square3.checkCollisionWithMouse(event.clientX, event.clientY);
+        });
+
+        animate(); // Uruchomienie animacji
+    </script>
+</body>
+</html>

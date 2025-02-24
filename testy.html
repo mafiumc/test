@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bramka Piłkarska</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #4CAF50; /* Kolor trawy */
+            overflow: hidden;
+        }
+        #goal {
+            width: 300px;
+            height: 150px;
+            background-color: #fff;
+            position: absolute;
+            left: 50%;
+            bottom: 50px;
+            transform: translateX(-50%);
+            border: 5px solid #000;
+            box-sizing: border-box;
+        }
+        #ball {
+            width: 30px;
+            height: 30px;
+            background-color: #f00;
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            bottom: 100px;
+            transform: translateX(-50%);
+        }
+        #score {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: white;
+        }
+ }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 15px 0;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 18px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+  <h1>Wybierz stronę do otwarcia</h1>
+
+    <ul>
+        <li><a href="file:///C:/Users/matik/Desktop/mojapierwszastrona.html" >Moja Pierwsza Strona</a></li>
+        <li><a href="file:///C:/Users/matik/Desktop/stickmanpiłka.html" >Stickman Piłka</a></li>
+        <li><a href="file:///C:/Users/matik/Desktop/testy.html" >Testy</a></li>
+    </ul>
+    <div id="goal"></div>
+    <div id="ball"></div>
+    <div id="score">Wynik: 0</div>
+
+    <script>
+        let ball = document.getElementById("ball");
+        let goal = document.getElementById("goal");
+        let scoreDisplay = document.getElementById("score");
+
+        let score = 0;
+        let ballSpeed = 5; // Szybkość piłki
+
+        document.addEventListener("click", function(event) {
+            let ballRect = ball.getBoundingClientRect();
+            let goalRect = goal.getBoundingClientRect();
+
+            // Ruch piłki po kliknięciu
+            let ballDirectionX = (event.clientX - ballRect.left) / Math.abs(event.clientX - ballRect.left) * ballSpeed;
+            let ballDirectionY = (event.clientY - ballRect.top) / Math.abs(event.clientY - ballRect.top) * ballSpeed;
+
+            let moveBall = setInterval(() => {
+                ball.style.left = ball.offsetLeft + ballDirectionX + "px";
+                ball.style.top = ball.offsetTop + ballDirectionY + "px";
+
+// Odbicie od ścianek (boki, góra, dół)
+                if (ball.offsetLeft <= 0 || ball.offsetLeft >= window.innerWidth - 30) ballDirectionX *= -1;
+                if (ball.offsetTop <= 0 || ball.offsetTop >= window.innerHeight - 30) ballDirectionY *= -1;
+
+                // Sprawdzanie, czy piłka trafiła do bramki
+                if (ball.offsetLeft >= goalRect.left && ball.offsetLeft <= goalRect.right && 
+                    ball.offsetTop >= goalRect.top && ball.offsetTop <= goalRect.bottom) {
+                    score++;
+                    scoreDisplay.textContent = `Wynik: ${score}`;
+                    clearInterval(moveBall);
+                    resetBall();
+                }
+
+            }, 20);
+        });
+
+        function resetBall() {
+            ball.style.left = "50%";
+            ball.style.top = "100px";
+            ball.style.transform = "translateX(-50%)";
+        }
+    </script>
+</body>
+</html>

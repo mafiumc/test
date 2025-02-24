@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kwadrat z Licznikiem (Powiększanie)</title>
+    <!-- Załączenie czcionki Roboto z Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+
+     #counter {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-family: 'Open Sans', sans-serif; /* Zmieniona czcionka na Open Sans */
+            font-weight: bold; /* Pogrubienie czcionki */
+        }
+
+        #square {
+            width: 100px; /* Początkowa szerokość (mniejszy kwadrat) */
+            height: 100px; /* Początkowa wysokość (mniejszy kwadrat) */
+            background-image: url('file:///C:/Users/matik/Desktop/xCrZl.jpg'); /* Wstaw ścieżkę do swojego zdjęcia */
+            background-size: cover;
+            background-position: center;
+            border: 2px solid #333;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<ul>
+        <li><a href="file:///C:/Users/matik/Desktop/mojapierwszastrona.html">Moja Pierwsza Strona</a></li>
+        <li><a href="file:///C:/Users/matik/Desktop/stickmanpiłka.html">Stickman Piłka</a></li>
+        <li><a href="file:///C:/Users/matik/Desktop/testy.html">Testy</a></li>
+        <li><a href="file:///C:/Users/matik/Desktop/test2.html">Test2</a></li>
+    </ul>
+
+    <div id="counter">Licznik: 0</div>
+    <div id="square"></div>
+
+    <script>
+        let counter = 0;
+        let squareSize = 100; // Początkowy rozmiar kwadratu
+
+        // Funkcja do powiększania rozmiaru kwadratu i aktualizacji licznika
+        function incrementSize() {
+            squareSize *= 1.1; // Powiększanie rozmiaru o 1%
+            document.getElementById('square').style.width = squareSize + 'px';
+            document.getElementById('square').style.height = squareSize + 'px';
+
+            // Zwiększanie licznika
+            counter++;
+            document.getElementById('counter').innerText = 'Licznik: ' + counter;
+        }
+
+        // Nasłuchiwanie kliknięcia na kwadrat
+        document.getElementById('square').addEventListener('click', incrementSize);
+    </script>
+
+</body>
+</html>
+
